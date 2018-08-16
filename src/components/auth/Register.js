@@ -9,6 +9,7 @@ import Alert from "../layout/Alert";
 class Login extends Component {
   state = {
     email: "",
+    username: "",
     password: ""
   };
 
@@ -16,12 +17,12 @@ class Login extends Component {
     e.preventDefault();
 
     const { firebase, notifyUser } = this.props;
-    const { email, password } = this.state;
+    const { email, password, username } = this.state;
 
     // Register with firebase
     firebase
-      .createUser({ email, password })
-      .catch(err => notifyUser("That User Already Exists", "error"));
+      .createUser({ email, password }, { username, email })
+      .catch(err => notifyUser(String(err), "error"));
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -50,6 +51,17 @@ class Login extends Component {
                     name="email"
                     required
                     value={this.state.email}
+                    onChange={this.onChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="username"
+                    required
+                    value={this.state.username}
                     onChange={this.onChange}
                   />
                 </div>

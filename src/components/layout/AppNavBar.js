@@ -29,14 +29,14 @@ class AppNavbar extends Component {
 
   render() {
     const { isAuthenticated } = this.state;
-    const { auth } = this.props;
+    const { auth, profile } = this.props;
     //const { allowRegistration } = this.props.settings;
 
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4">
         <div className="container">
           <Link to="/" className="navbar-brand">
-            ClientPanel
+            App
           </Link>
           <button
             className="navbar-toggler"
@@ -60,7 +60,7 @@ class AppNavbar extends Component {
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
                   <a href="#!" className="nav-link">
-                    {auth.email}
+                    {profile.username}
                   </a>
                 </li>
                 <li className="nav-item">
@@ -79,21 +79,6 @@ class AppNavbar extends Component {
                 </li>
               </ul>
             ) : null}
-
-            {/* {allowRegistration && !isAuthenticated ? (
-              <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to="/login" className="nav-link">
-                    Login
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/register" className="nav-link">
-                    Register
-                  </Link>
-                </li>
-              </ul>
-            ) : null} */}
           </div>
         </div>
       </nav>
@@ -104,6 +89,7 @@ class AppNavbar extends Component {
 AppNavbar.propTypes = {
   firebase: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   settings: PropTypes.object.isRequired
 };
 
@@ -111,6 +97,7 @@ export default compose(
   firebaseConnect(),
   connect((state, props) => ({
     auth: state.firebase.auth,
+    profile: state.firebase.profile,
     settings: state.settings
   }))
 )(AppNavbar);

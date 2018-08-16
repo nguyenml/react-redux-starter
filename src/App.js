@@ -7,6 +7,7 @@ import {
 } from "./components/helps/auth";
 import AppNavBar from "./components/layout/AppNavBar";
 import Dashboard from "./components/layout/Dashboard";
+import NotFound from "./components/pages/NotFound";
 
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -38,6 +39,7 @@ class App extends Component {
                   path="/register"
                   component={UserIsNotAuthenticated(Register)}
                 />
+                <Route component={NotFound} />
               </Switch>
             </div>
           </div>
