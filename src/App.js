@@ -12,6 +12,8 @@ import NotFound from "./components/pages/NotFound";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
+import UserProfile from "./components/user/UserProfile";
+
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -38,6 +40,11 @@ class App extends Component {
                   exact
                   path="/register"
                   component={UserIsNotAuthenticated(Register)}
+                />
+                <Route
+                  exact
+                  path="/user/:id"
+                  component={UserIsAuthenticated(UserProfile)}
                 />
                 <Route component={NotFound} />
               </Switch>
