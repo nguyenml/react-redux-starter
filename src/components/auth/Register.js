@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firebaseConnect } from "react-redux-firebase";
 import { notifyUser } from "../../actions/notifyActions";
+import { Link } from "react-router-dom";
 import Alert from "../layout/Alert";
 
 class Login extends Component {
@@ -84,6 +85,9 @@ class Login extends Component {
               </form>
             </div>
           </div>
+          <Link to="/Login" className="">
+            Already have an account?
+          </Link>
         </div>
       </div>
     );
