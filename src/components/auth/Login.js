@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firebaseConnect } from "react-redux-firebase";
-import { notifyUser } from "../../actions/notifyActions";
-import { Link } from "react-router-dom";
-import Alert from "../layout/Alert";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -17,7 +14,6 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
-import ErrorIcon from "@material-ui/icons/Error";
 import style from "./style";
 
 class Login extends Component {
@@ -31,7 +27,7 @@ class Login extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { firebase, notifyUser } = this.props;
+    const { firebase } = this.props;
     const { email, password } = this.state;
 
     firebase
@@ -57,7 +53,6 @@ class Login extends Component {
   };
 
   render() {
-    const { message, messageType } = this.props.notify;
     const { classes } = this.props;
     const { errorOpen, errorMessage } = this.state;
     return (
@@ -128,10 +123,5 @@ Login.propTypes = {
 export default compose(
   withStyles(style),
   firebaseConnect(),
-  connect(
-    (state, props) => ({
-      notify: state.notify
-    }),
-    { notifyUser }
-  )
+  connect()
 )(Login);

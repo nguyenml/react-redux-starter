@@ -1,27 +1,33 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-import classnames from "classnames";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import defaultImage from "./img_avatar3.png";
+import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
+import styles from "./styles";
+import TextField from "@material-ui/core/TextField";
 
 class UserProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.paperTextInput = React.createRef();
+    this.descTextInput = React.createRef();
+  }
+
   state = {
     username: ""
   };
-  constructor(props) {
-    super(props);
-  }
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
-  // Update balance
-  balanceSubmit = e => {
+  // Update username
+  userNameSubmit = e => {
     e.preventDefault();
 
-    const { user, firestore } = this.props;
+    const { firestore, auth } = this.props;
     const { username } = this.state;
 
     const userUpdate = {
@@ -29,26 +35,43 @@ class UserProfile extends Component {
     };
 
     // Update in firestore
-    firestore.update({ collection: "users", doc: user.id }, userUpdate);
+    firestore.update({ collection: "users", doc: auth.uid }, userUpdate);
+  };
+
+  //update paperText
+  paperOnClick = () => {
+    const { firestore, auth } = this.props;
+
+    const userUpdate = {
+      paperText: this.paperTextInput.current.value
+    };
+
+    // Update in firestore
+    firestore.update({ collection: "users", doc: auth.uid }, userUpdate);
+  };
+
+  descOnClick = () => {
+    const { firestore, auth } = this.props;
+
+    const newDesc = {
+      text: this.descTextInput.current.value,
+      uid: auth.id
+    };
+
+    firestore.add({ collection: "description" }, newDesc);
   };
 
   render() {
-    const { user } = this.props;
-    const { username } = this.state;
-
-    if (user) {
+    const { classes, description, profile } = this.props;
+    if (description && profile.paperText) {
       return (
         <div className="row">
           <div className="col-sm-3">
             <div className="card">
-              <img
-                className="card-img-top"
-                src={defaultImage}
-                alt="Card image cap"
-              />
+              <img className="card-img-top" src={defaultImage} alt="" />
               <div className="card-body">
-                <h5 className="card-title">{user.username}</h5>
-                <form onSubmit={this.balanceSubmit}>
+                <h5 className="card-title">{profile.username}</h5>
+                <form onSubmit={this.userNameSubmit}>
                   <div className="input-group">
                     <input
                       type="text"
@@ -78,6 +101,60 @@ class UserProfile extends Component {
               </ul>
             </div>
           </div>
+          <div className="container col-sm-9">
+            <div className={classes.layout}>
+              <Paper className={classes.root} elevation={1}>
+                <TextField
+                  label="description"
+                  variant="display1"
+                  multiline
+                  className={classes.textField}
+                  defaultValue={description.text}
+                  InputProps={{
+                    disableUnderline: true,
+                    classes: {
+                      root: classes.bootstrapRoot,
+                      input: classes.bootstrapInput
+                    },
+                    inputRef: this.descTextInput
+                  }}
+                />
+                <Button
+                  color="primary"
+                  className={classes.button}
+                  onClick={this.descOnClick}
+                >
+                  Primary
+                </Button>
+              </Paper>
+            </div>
+            <main className={classes.layout}>
+              <Paper className={classes.root} elevation={1}>
+                <TextField
+                  label="paperText"
+                  variant="display1"
+                  multiline
+                  className={classes.textField}
+                  defaultValue={profile.paperText}
+                  InputProps={{
+                    disableUnderline: true,
+                    classes: {
+                      root: classes.bootstrapRoot,
+                      input: classes.bootstrapInput
+                    },
+                    inputRef: this.paperTextInput
+                  }}
+                />
+                <Button
+                  color="primary"
+                  className={classes.button}
+                  onClick={this.paperOnClick}
+                >
+                  Primary
+                </Button>
+              </Paper>
+            </main>
+          </div>
         </div>
       );
     } else {
@@ -86,11 +163,22 @@ class UserProfile extends Component {
   }
 }
 
+UserProfile.propTypes = {
+  classes: PropTypes.object.isRequired,
+  description: PropTypes.object
+};
+
 export default compose(
-  firestoreConnect(props => [
-    { collection: "users", storeAs: "user", doc: props.match.params.id }
+  withStyles(styles),
+  firestoreConnect(({ auth }) => [
+    {
+      collection: "description",
+      where: [["uid", "==", `${auth.uid}`]],
+      storeAs: "description"
+    }
+    // 'todos#orderByChild=createdBy&equalTo=ASD123', // string notation
   ]),
   connect(({ firestore: { ordered } }, props) => ({
-    user: ordered.user && ordered.user[0]
+    description: ordered.description && ordered.description[0]
   }))
 )(UserProfile);

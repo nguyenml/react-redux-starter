@@ -12,7 +12,7 @@ import NotFound from "./components/pages/NotFound";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 
-import UserProfile from "./components/user/UserProfile";
+import Profile from "./components/layout/Profile";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -43,8 +43,8 @@ class App extends Component {
                 />
                 <Route
                   exact
-                  path="/user/:id"
-                  component={UserIsAuthenticated(UserProfile)}
+                  path="/user"
+                  component={UserIsAuthenticated(Profile)}
                 />
                 <Route component={NotFound} />
               </Switch>

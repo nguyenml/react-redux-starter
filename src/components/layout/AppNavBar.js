@@ -29,12 +29,18 @@ class AppNavbar extends Component {
 
   render() {
     const { isAuthenticated } = this.state;
-    const { auth, profile } = this.props;
+    const { profile } = this.props;
 
     return (
       <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4">
         <div className="container">
-          <Link to="/" className="navbar-brand">
+          <Link
+            to={{
+              pathname: "/",
+              search: "?sort="
+            }}
+            className="navbar-brand"
+          >
             App
           </Link>
           <button
@@ -49,7 +55,7 @@ class AppNavbar extends Component {
             {isAuthenticated ? (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
-                  <Link className="nav-link" to={`/user/${auth.uid}`}>
+                  <Link className="nav-link" to={`/user`}>
                     {profile.username}
                   </Link>
                 </li>
@@ -79,8 +85,8 @@ class AppNavbar extends Component {
 AppNavbar.propTypes = {
   firebase: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired
+  // settings: PropTypes.object.isRequired
 };
 
 export default compose(
