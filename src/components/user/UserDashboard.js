@@ -75,12 +75,7 @@ export default compose(
   firestoreConnect(({ auth }) => [
     {
       collection: "description",
-      path: "/description",
-      queryParams: [
-        "orderByChild=uid",
-        `equalTo=${auth.uid}`,
-        `limitToFirst=1`
-      ],
+      where: [["uid", "==", `${auth.uid}`]],
       storeAs: "description"
     }
     // 'todos#orderByChild=createdBy&equalTo=ASD123', // string notation

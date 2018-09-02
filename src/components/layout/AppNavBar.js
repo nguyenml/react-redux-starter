@@ -41,7 +41,7 @@ class AppNavbar extends Component {
             }}
             className="navbar-brand"
           >
-            App
+            Front
           </Link>
           <button
             className="navbar-toggler"
@@ -86,7 +86,6 @@ AppNavbar.propTypes = {
   firebase: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
-  // settings: PropTypes.object.isRequired
 };
 
 export default compose(

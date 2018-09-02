@@ -176,7 +176,6 @@ export default compose(
       where: [["uid", "==", `${auth.uid}`]],
       storeAs: "description"
     }
-    // 'todos#orderByChild=createdBy&equalTo=ASD123', // string notation
   ]),
   connect(({ firestore: { ordered } }, props) => ({
     description: ordered.description && ordered.description[0]

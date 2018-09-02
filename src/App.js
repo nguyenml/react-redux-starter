@@ -8,6 +8,7 @@ import {
 import AppNavBar from "./components/layout/AppNavBar";
 import Dashboard from "./components/layout/Dashboard";
 import NotFound from "./components/pages/NotFound";
+import Settings from "./components/pages/Settings";
 
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -46,6 +47,12 @@ class App extends Component {
                   path="/user"
                   component={UserIsAuthenticated(Profile)}
                 />
+                <Route
+                  exact
+                  path="/settings"
+                  component={UserIsAuthenticated(Settings)}
+                />
+
                 <Route component={NotFound} />
               </Switch>
             </div>

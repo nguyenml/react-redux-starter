@@ -6,6 +6,7 @@ import "firebase/firestore"; // <- needed if using firestore
 // import 'firebase/functions' // <- needed if using httpsCallable
 
 import notifyReducer from "./reducers/notifyReducer";
+import settingsReducer from "./reducers/settingsReducer";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCN88vFbYIK74qZcIujSF-iXsSbW5Di39M",
@@ -41,7 +42,8 @@ const createStoreWithFirebase = compose(
 const rootReducer = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
-  notify: notifyReducer
+  notify: notifyReducer,
+  setting: settingsReducer
 });
 
 // Create store with reducers and initial state
